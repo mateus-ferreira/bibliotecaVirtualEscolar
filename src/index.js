@@ -1,17 +1,10 @@
-require('dotenv').config()
-const Koa = require('Koa')
-const KoaRouter = require('koa-router')
-const app = new Koa()
-const router = new KoaRouter()
+require('dotenv').config();
+const Koa = require('Koa');
+const app = new Koa();
+const rotas = require('./rotas');
 
-router.get('/', (ctx, next) => {
-    ctx.body = "Hello World"
-})
+rotas(app);
 
-app
-    .use(router.routes())
-    .use(router.allowedMethods())
-
-app.listen(process.env.PORT)
+app.listen(process.env.PORT);
 
 module.exports = app
