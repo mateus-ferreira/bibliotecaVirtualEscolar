@@ -1,4 +1,4 @@
-const app =  require('../src/index.js');
+const app =  require('../src/index');
 
 const assert = require('assert');
 const chai = require('chai')
@@ -14,7 +14,7 @@ describe('Testes CRUD de livros', () => {
     describe('Create', () =>{
         it('cadastrar um livro do Pequeno Principe corretamente', (done) => {
             chai.request(app)
-            .post('/livro')
+            .post('/cadastroLivro')
             .send({codigo: 2, titulo: "Pequeno Principe", autor: "Antoine de Saint-Exupéry", categoria: "literatura", quantidade: 2 })
             .end(function (err,res) {
                 expect(err).to.be.null;
@@ -25,7 +25,7 @@ describe('Testes CRUD de livros', () => {
 
         it('cadastrar um livro do Pequeno Principe com código incorreto', (done) => {
             chai.request(app)
-            .post('/livro')
+            .post('/cadastroLivro')
             .send({codigo: "12E4", titulo: "Pequeno Principe", autor: "Antoine de Saint-Exupéry", categoria: "literatura", quantidade: 2 })
             .end(function (err,res) {
                 expect(err.response.body.error).to.be.equal('Código Inválido');
@@ -36,7 +36,7 @@ describe('Testes CRUD de livros', () => {
 
         it('cadastrar um livro do Pequeno Principe sem código', (done) => {
             chai.request(app)
-            .post('/livro')
+            .post('/cadastroLivro')
             .send({codigo: "", titulo: "Pequeno Principe", autor: "Antoine de Saint-Exupéry", categoria: "literatura", quantidade: 2 })
             .end(function (err,res) {
                 expect(err.response.body.error).to.be.equal('Um ou mais campos ausentes');
@@ -47,7 +47,7 @@ describe('Testes CRUD de livros', () => {
 
         it('cadastrar um livro do Pequeno Principe sem título', (done) => {
             chai.request(app)
-            .post('/livro')
+            .post('/cadastroLivro')
             .send({codigo: 1235, titulo: "", autor: "Antoine de Saint-Exupéry", categoria: "literatura", quantidade: 2 })
             .end(function (err,res) {
                 expect(err.response.body.error).to.be.equal('Um ou mais campos ausentes');
@@ -58,7 +58,7 @@ describe('Testes CRUD de livros', () => {
 
         it('cadastrar um livro do Pequeno Principe sem título', (done) => {
             chai.request(app)
-            .post('/livro')
+            .post('/cadastroLivro')
             .send({codigo: 1235, titulo: "Pequeno Príncipe", autor: "", categoria: "literatura", quantidade: 2 })
             .end(function (err,res) {
                 expect(err.response.body.error).to.be.equal('Um ou mais campos ausentes');
@@ -69,7 +69,7 @@ describe('Testes CRUD de livros', () => {
 
         it('cadastrar um livro vazio', (done) => {
             chai.request(app)
-            .post('/livro')
+            .post('/cadastroLivro')
             .send({ codigo: "", titulo: "", autor: "", categoria: "", quantidade: ""})
             .end(function (err,res) {
                 expect(err.response.body.error).to.be.equal('Um ou mais campos ausentes');
@@ -82,7 +82,7 @@ describe('Testes CRUD de livros', () => {
     describe('Read', () => {
         it('get em todos os livros disponíveis', (done) => {
             chai.request(app)
-            .get('/livros')
+            .get('/listaLivros')
             .end(function(err,res){
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
@@ -92,7 +92,7 @@ describe('Testes CRUD de livros', () => {
 
         it('get em um livro usando o código', (done) => {
             chai.request(app)
-            .get('/livro/2')
+            .get('/livroCodigo/2')
             .end(function(err,res) {
                 expect(err.response.body.error).to.be.equal('Livro não existe');
                 expect(res).to.have.status(200);
@@ -102,7 +102,7 @@ describe('Testes CRUD de livros', () => {
 
         it('get em um livro usando o título', (done) => {
             chai.request(app)
-            .get('/livro/PequenoPrincipe')
+            .get('/livroTitulo/Pequeno_Principe')
             .end(function(err,res) {
                 expect(err.response.body.error).to.be.equal('Livro não existe');
                 expect(res).to.have.status(200);
