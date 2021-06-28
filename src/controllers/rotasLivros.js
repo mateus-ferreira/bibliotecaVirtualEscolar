@@ -1,4 +1,4 @@
-const livro = require('../controllers/LivrosController')
+const livro = require('./LivrosController')
 
 module.exports = (router, koaBody) => {
     router

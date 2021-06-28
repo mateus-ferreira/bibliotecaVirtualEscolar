@@ -5,6 +5,6 @@ const rotas = require('./rotas');
 
 rotas(app);
 
-app.listen(process.env.PORT);
+server = app.listen(process.env.PORT);
 
-module.exports = app
+module.exports = server

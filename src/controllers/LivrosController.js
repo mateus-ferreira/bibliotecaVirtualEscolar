@@ -1,17 +1,29 @@
 const { Sequelize } = require('../database/models')
 const database = require('../database/models')
 const Op = Sequelize.Op
+const validacoes = require('../validacoes/validacoesLivros')
+const { CampoInvalido } = require('../erros/erros')
 
 class LivrosController {
     //C
     static async cadastrarLivro(ctx, next) {
         const novoLivro = ctx.request.body
         try {
+            validacoes.dadosInvalidos(novoLivro.codigo,
+                novoLivro.titulo,
+                novoLivro.autor,
+                novoLivro.quantidade)
             ctx.body = await database.Livros.create(novoLivro)
             console.log(ctx.body)
+            
             ctx.status = 201
             return ctx.body
         }catch(erro){
+            if(erro instanceof CampoInvalido){
+                ctx.status = 400
+                return ctx.body = erro.message
+                
+            }
             return ctx.body = erro.message
         }
     }
