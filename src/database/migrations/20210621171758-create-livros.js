@@ -14,11 +14,8 @@ module.exports = {
       autor: {
         type: Sequelize.STRING
       },
-      categoria: {
+      editora: {
         type: Sequelize.STRING
-      },
-      quantidade: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

@@ -1,4 +1,4 @@
-const rotasLivros = require("./rotasLivros");
+const rotasLivros = require('../controllers/rotasLivros');
 const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 const bodyParser = require('koa-bodyparser')

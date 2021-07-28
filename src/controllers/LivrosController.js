@@ -12,7 +12,7 @@ class LivrosController {
             validacoes.dadosInvalidos(novoLivro.codigo,
                 novoLivro.titulo,
                 novoLivro.autor,
-                novoLivro.quantidade)
+                novoLivro.editora)
             ctx.body = await database.Livros.create(novoLivro)
             console.log(ctx.body)
             
@@ -21,10 +21,12 @@ class LivrosController {
         }catch(erro){
             if(erro instanceof CampoInvalido){
                 ctx.status = 400
-                return ctx.body = erro.message
+                ctx.body = erro
+                return erro
                 
             }
-            return ctx.body = erro.message
+            return erro
+            next()
         }
     }
     
