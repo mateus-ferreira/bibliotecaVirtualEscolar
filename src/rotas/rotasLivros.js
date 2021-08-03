@@ -1,4 +1,4 @@
-const livro = require('./LivrosController')
+const livro = require('../controllers/LivrosController')
 
 module.exports = (router, koaBody) => {
     router
@@ -16,4 +16,10 @@ module.exports = (router, koaBody) => {
         .get('/livroTitulo/:titulo', livro.listarLivroComTitulo)
 
         .get('/livroAutor/:autor', livro.listarLivroComAutor)
+
+        //U
+        .put('/editarLivro/:codLivro', koaBody, livro.editarLivro)
+
+        //D
+        .delete('/excluirLivro/:livroExcluido', livro.excluirLivro)
 }

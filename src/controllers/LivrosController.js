@@ -69,6 +69,44 @@ class LivrosController {
         }
     }
 
+    //U
+    static async editarLivro(ctx, next) {
+        const { codLivro } = ctx.params
+        const dados = ctx.request.body
+        try {
+            /*validacoes.dadosInvalidos(dados.codigo,
+                dados.titulo,
+                dados.autor,
+                dados.editora)*/
+            ctx.body = await database.Livros.update(dados, {where: { codigo: Number(codLivro) }})
+            console.log(ctx.body)
+
+            ctx.status = 200
+            return ctx.body
+        }catch (erro) {
+            if(erro instanceof CampoInvalido){
+                ctx.status = 400
+                ctx.body = erro
+                return erro
+                
+            }
+            return erro
+            next()
+        }
+    }
+
+    //D
+    static async excluirLivro(ctx, next) {
+        const { livroExcluido } = ctx.params
+        try {
+            await database.Livros.destroy({where: { codigo: Number(livroExcluido) }})
+            ctx.status = 200
+            return ctx.message = "Livro Excluído"
+        } catch(erro){
+            return ctx.body = erro.message
+        }
+    }
+
 }
 
 module.exports = LivrosController
