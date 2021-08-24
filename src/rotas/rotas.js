@@ -1,4 +1,5 @@
-const rotasUsuarios = require('./rotasUsuarios');
+const rotasUsuarios = require('../Usuarios/rotas/rotasUsuarios');
+const rotasLivros = require('../Livros/rotas/rotasLivros')
 const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 const bodyParser = require('koa-bodyparser')
@@ -11,5 +12,6 @@ module.exports = (app) =>{
         .use(bodyParser())
         .use(koaBody())
 
+    rotasLivros(router, koaBody());
     rotasUsuarios(router, koaBody());
 }

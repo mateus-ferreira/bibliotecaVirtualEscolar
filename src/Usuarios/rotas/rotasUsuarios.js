@@ -1,10 +1,10 @@
-const usuarios = require('../controllers/UsuariosController')
+const usuario = require('../controllers/UsuariosController')
 
 module.exports = (router, koaBody) => {
     router
         //C
-        .post('/cadastrarUsuario', usuarios.cadastrarUsuario)
+        .post('/cadastroUsuario', koaBody, usuario.cadastrarUsuario)
 
         //R
-        .get('/listarUsuarios', usuarios.verTodosUsuarios)
+        .get('/listarUsuarios', usuario.verTodosUsuarios)
 }
