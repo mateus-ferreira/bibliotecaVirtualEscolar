@@ -1,10 +1,11 @@
 require('dotenv').config();
 const Koa = require('Koa');
 const app = new Koa();
-const rotas = require('./rotas');
+const rotasLivros = require('./Livros/rotas');
+const rotasUsuarios = require('./Usuarios/rotas')
 
-rotas(app);
-
+rotasLivros(app);
+rotasUsuarios(app)
 server = app.listen(process.env.PORT);
 
 module.exports = server
