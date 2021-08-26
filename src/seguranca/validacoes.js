@@ -1,4 +1,4 @@
-const { InvalidArgumentError } = require('./erros/erros');
+const { InvalidArgumentError } = require('../Usuarios/erros/erros');
 
 
 module.exports = {

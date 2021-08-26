@@ -1,6 +1,7 @@
 const database = require('../../database/models')
 const { InvalidArgumentError, InternalServerError } = require('../erros/erros')
 const cripto = require('../../seguranca/seguranca')
+const valida = require('../../seguranca/validacoes')
 
 class UsuariosController {
     //C
@@ -8,6 +9,12 @@ class UsuariosController {
         const novoUsuario = ctx.request.body
 
         try{
+
+            valida.campoStringNaoNulo(novoUsuario.nome, 'nome');
+            valida.campoStringNaoNulo(novoUsuario.email, 'email');
+            valida.campoStringNaoNulo(novoUsuario.senha, 'senha');
+            valida.campoTamanhoMinimo(novoUsuario.senha, 'senha', 8);
+            valida.campoTamanhoMaximo(novoUsuario.senha, 'senha', 64);
 
             const novaSenha = await cripto.gerarSenhaHash(novoUsuario.senha)
             novoUsuario.senha = novaSenha
