@@ -1,5 +1,6 @@
 const database = require('../../database/models')
 const { InvalidArgumentError, InternalServerError } = require('../erros/erros')
+const cripto = require('../../seguranca/seguranca')
 
 class UsuariosController {
     //C
@@ -7,6 +8,9 @@ class UsuariosController {
         const novoUsuario = ctx.request.body
 
         try{
+
+            const novaSenha = await cripto.gerarSenhaHash(novoUsuario.senha)
+            novoUsuario.senha = novaSenha
 
             ctx.body = await database.Usuarios.create(novoUsuario)
             console.log(ctx.body)
