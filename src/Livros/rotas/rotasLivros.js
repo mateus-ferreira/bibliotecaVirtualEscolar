@@ -1,4 +1,5 @@
 const livro = require('../controllers/LivrosController')
+const passport = require('passport')
 
 module.exports = (router, koaBody) => {
     router
@@ -6,7 +7,7 @@ module.exports = (router, koaBody) => {
             ctx.body = "Hello World"
         })
         //C
-        .post('/cadastroLivro', koaBody, livro.cadastrarLivro)
+        .post('/cadastroLivro', koaBody, passport.authenticate('bearer', { session: false }), livro.cadastrarLivro)
 
         //R
         .get('/listaLivros', livro.listarTodosLivros)
@@ -21,5 +22,5 @@ module.exports = (router, koaBody) => {
         .put('/editarLivro/:codLivro', koaBody, livro.editarLivro)
 
         //D
-        .delete('/excluirLivro/:livroExcluido', livro.excluirLivro)
+        .delete('/excluirLivro/:livroExcluido', passport.authenticate('bearer', { session: false }), livro.excluirLivro)
 }

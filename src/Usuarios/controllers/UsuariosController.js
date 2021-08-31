@@ -1,11 +1,21 @@
 const database = require('../../database/models')
 const { InvalidArgumentError, InternalServerError } = require('../erros/erros')
 const cripto = require('../../seguranca/seguranca')
+const autenticacao = require('../../seguranca/autenticacao')
 const valida = require('../../seguranca/validacoes')
+const jwt = require('koa-jwt')
+
+function gerarToken(usuario){
+    const payload = { sub: 10 }
+    
+
+    const token = jwt.sign(payload, process.env.SECRETPASS)
+    return token
+}
 
 class UsuariosController {
     //C
-    static async cadastrarUsuario(ctx, next) {
+    static async cadastrarUsuario(ctx) {
         const novoUsuario = ctx.request.body
 
         try{
@@ -30,36 +40,57 @@ class UsuariosController {
                 ctx.status = 422
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else if (erro instanceof InternalServerError) {
 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else {
                 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
             }
         }   
     };
     //R
-    static async verTodosUsuarios(ctx, next){
+    static async verTodosUsuarios(ctx){
         try{
             ctx.body = await database.Usuarios.findAll()
             return ctx.body
         }catch(erro){
             ctx.body = erro.message
-            next()
+        }
+    };
+
+    static async buscarPorEmail(ctx){
+        const { email } = ctx.params
+
+        try{
+            ctx.body = await database.Usuarios.findOne({ where: { email: email }})
+            console.log(ctx.body)
+            ctx.status = 200
+            return ctx.body
+        } catch(erro) {
+            ctx.body = erro.message
+        }
+    };
+
+    static async buscarPorId(ctx) {
+        const { id } = ctx.params
+        try{
+            ctx.body = await database.Usuarios.findOne({ where: { id: Number(id) }})
+            console.log(ctx.body)
+            ctx.status = 200
+            return ctx.body
+        } catch(erro) {
+            ctx.body = erro.message
         }
     };
     //U
-    static async editarUsuarioPorId(ctx, next){
+    static async editarUsuarioPorId(ctx){
         const { id } = ctx.params
         const dados = ctx.request.body
 
@@ -74,26 +105,23 @@ class UsuariosController {
                 ctx.status = 422
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else if (erro instanceof InternalServerError) {
 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else {
                 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
             }
         }  
     };
 
-    static async editarUsuarioPorEmail(ctx, next){
+    static async editarUsuarioPorEmail(ctx){
         const { email } = ctx.params
         const dados = ctx.request.body
 
@@ -108,26 +136,23 @@ class UsuariosController {
                 ctx.status = 422
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else if (erro instanceof InternalServerError) {
 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else {
                 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
             }
         }  
     };
     //D
-    static async apagarUsuarioPorEmail(ctx, next){
+    static async apagarUsuarioPorEmail(ctx){
         const { email } = ctx.params
 
         try{
@@ -141,26 +166,23 @@ class UsuariosController {
                 ctx.status = 422
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else if (erro instanceof InternalServerError) {
 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else {
                 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
             }
         }
     };
 
-    static async apagarUsuarioPorId(ctx, next){
+    static async apagarUsuarioPorId(ctx){
         const { id } = ctx.params
 
         try{
@@ -174,23 +196,27 @@ class UsuariosController {
                 ctx.status = 422
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else if (erro instanceof InternalServerError) {
 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
 
             } else {
                 
                 ctx.status = 500
                 ctx.body =  erro.message
                 return erro
-                next()
             }
         }
+    };
+
+    static login(ctx) {
+        ctx.body = gerarToken()
+        console.log(ctx.body)
+        ctx.status = 204
+        return ctx.body
     }
 }
 

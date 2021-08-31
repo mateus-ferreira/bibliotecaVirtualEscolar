@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const { InvalidArgumentError } = require('../Usuarios/erros/erros')
 
 class Seguranca {
     static async gerarSenhaHash(senha){
