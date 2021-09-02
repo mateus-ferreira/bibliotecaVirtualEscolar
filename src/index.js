@@ -1,9 +1,7 @@
 require('dotenv').config();
-const Koa = require('Koa');
-const app = new Koa();
+const express = require('express')
+const app = express();
 const rotas = require('./rotas/rotas')
 
 rotas(app)
-server = app.listen(process.env.PORT);
-
-module.exports = server
+app.listen(process.env.PORT);

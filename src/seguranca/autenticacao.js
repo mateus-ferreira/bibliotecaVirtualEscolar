@@ -6,7 +6,7 @@ const User = require('../Usuarios/controllers/UsuariosController')
 const { InvalidArgumentError } = require('../Usuarios/erros/erros')
 const bcrypt = require('bcrypt')
 const database = require('../database/models')
-const jwt = require('koa-jwt')
+const jwt = require('jsonwebtoken')
 
 
 function verificaUsuario(usuario){
@@ -17,7 +17,11 @@ function verificaUsuario(usuario){
 
 async function verificaSenha(senha, senhaHash){
     const senhaValida = await bcrypt.compare(senha, senhaHash)
-    if(!senhaValida){
+    if(senhaValida){
+        const msg = "deu boa"
+        return msg
+    }
+    else{
         throw new InvalidArgumentError('E-mail ou senha inválidos')
     }
 }
@@ -27,15 +31,18 @@ module.exports = (
             usernameField: 'email',
             passwordField: 'senha',
             session: false
-        }, async (email, senha, done) => {
+        }, async (email, senha) => {
             try{
-                const usuario = await database.Usuarios.findOne({ where: {email: email}})
+                const usuario = await database.Usuarios.findOne({ where: { email: email }})
                 verificaUsuario(usuario)
-                await verificaSenha(senha, usuario.senha)
+               
+                const senhaHash = usuario.senha
+                console.log(senhaHash)
+                await verificaSenha(this.senha, senhaHash)
 
-                done(null, usuario)
+                return usuario
             }catch (erro) {
-                done(erro)
+                return erro.message
             }
             
         })
@@ -44,9 +51,12 @@ module.exports = (
     passport.use(
         new BearerStrategy(
             async (token, done) => {
+                console.log(token)
                 try{
-                    const payload = jwt.verify(token, process.env.SECRETPASS)
-                    const usuario = await User.buscarPorId(payload.id)
+                    console.log("token auth")
+                    const pl = jwt.verify(token, process.env.SECRETPASS)
+                    console.log("pl -",pl)
+                    const usuario = await database.Usuarios.findOne({ where: { id: Number(pl.id) }})
                     done(null, usuario)
                 }catch(erro){
                     done(erro)

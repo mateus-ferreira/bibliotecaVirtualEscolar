@@ -1,19 +1,15 @@
 const rotasUsuarios = require('../Usuarios/rotas/rotasUsuarios');
-const rotasLivros = require('../Livros/rotas/rotasLivros')
-const KoaRouter = require('koa-router');
-const router = new KoaRouter();
-const bodyParser = require('koa-bodyparser')
-const koaBody = require('koa-body')
-const passport = require('koa-passport')
+const rotasLivros = require('../Livros/rotas/rotasLivros');
+const bodyParser = require('body-parser')
+
     
 module.exports = (app) =>{
     app
-        .use(router.routes())
-        .use(router.allowedMethods())
-        .use(bodyParser())
-        .use(koaBody())
-        .use(passport.initialize())
+        
+        .use(bodyParser.json())
+        .use(rotasLivros)
+        .use(rotasUsuarios)
 
-    rotasLivros(router, koaBody());
-    rotasUsuarios(router, koaBody());
+
+        .get('/', (req, res) => {(res.send("hello world"))})
 }

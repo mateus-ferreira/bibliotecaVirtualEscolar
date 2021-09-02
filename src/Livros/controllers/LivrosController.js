@@ -6,104 +6,103 @@ const { CampoInvalido } = require('../erros/erros')
 
 class LivrosController {
     //C
-    static async cadastrarLivro(ctx, next) {
-        const novoLivro = ctx.request.body
+    static async cadastrarLivro(req, res) {
+        const novoLivro = req.body
         try {
             validacoes.dadosInvalidos(novoLivro.codigo,
                 novoLivro.titulo,
                 novoLivro.autor,
                 novoLivro.editora)
-            ctx.body = await database.Livros.create(novoLivro)
-            console.log(ctx.body)
+            const livro = await database.Livros.create(novoLivro)
+            console.log(livro)
             
-            ctx.status = 201
-            return ctx.body
+            res.status(201)
+            return res.send(livro).json()
         }catch(erro){
             if(erro instanceof CampoInvalido){
-                ctx.status = 400
-                ctx.body = erro
-                return erro
+                res.status(400)
+                return res.send(erro)
                 
             }
-            return erro
-            next()
+            return res.send(erro)
         }
     }
     
     //R
-    static async listarTodosLivros(ctx, next) {
+    static async listarTodosLivros(req, res) {
         try {
-            ctx.body = await database.Livros.findAll()
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Livros.findAll()).json()
         } catch (erro) {
-            ctx.body = erro.message
+            res.status(404)
+            return res.send(erro).json()
         }
     }
 
-    static async listarLivroComCodigo(ctx, next) {
-        const { codigo } = ctx.params
+    static async listarLivroComCodigo(req, res) {
+        const { codigo } = req.params
         try {
-            ctx.body = await database.Livros.findOne({ where: { codigo: Number(codigo) } })
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Livros.findOne({ where: { codigo: Number(codigo) } })).json()
         } catch (erro) {
-            ctx.body = erro.message
+            res.status(404)
+            return res.send(erro).json()
         }
     }
 
-    static async listarLivroComTitulo(ctx, next) {
-        const { titulo } = ctx.params
+    static async listarLivroComTitulo(req, res) {
+        const { titulo } = req.params
         try {
-            ctx.body = await database.Livros.findAll({ where: { titulo: {[Op.substring]: titulo }}})
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Livros.findAll({ where: { titulo: {[Op.substring]: titulo }}})).json()
         } catch (erro) {
-            return ctx.body = erro.message
+            res.status(404)
+            return res.send(erro).json()
         }
     }
 
-    static async listarLivroComAutor(ctx, next) {
-        const { autor } = ctx.params
+    static async listarLivroComAutor(req, res) {
+        const { autor } = req.params
         try {
-            ctx.body = await database.Livros.findAll({ where: { autor: {[Op.substring]: autor }}})
+            res.status(200)
+            return res.send(await database.Livros.findAll({ where: { autor: {[Op.substring]: autor }}})).json()
         } catch (erro) {
-            return ctx.body = erro.message
+            res.status(404)
+            return res.send(erro).json()
         }
     }
 
     //U
-    static async editarLivro(ctx, next) {
-        const { codLivro } = ctx.params
-        const dados = ctx.request.body
+    static async editarLivro(req, res) {
+        const { codigo } = req.params
+        const dados = req.body
         try {
             /*validacoes.dadosInvalidos(dados.codigo,
                 dados.titulo,
                 dados.autor,
                 dados.editora)*/
-            ctx.body = await database.Livros.update(dados, {where: { codigo: Number(codLivro) }})
-            console.log(ctx.body)
-
-            ctx.status = 200
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Livros.update(dados, {where: { codigo: Number(codigo) }})).json()  
         }catch (erro) {
             if(erro instanceof CampoInvalido){
-                ctx.status = 400
-                ctx.body = erro
-                return erro
+                res.status(400)
+                return res.send(erro).json()
                 
             }
-            return erro
-            next()
+            return res.send(erro).json()
         }
     }
 
     //D
-    static async excluirLivro(ctx, next) {
-        const { livroExcluido } = ctx.params
+    static async excluirLivro(req, res) {
+        const { livroExcluido } = req.params
         try {
+            res.status(204)
             await database.Livros.destroy({where: { codigo: Number(livroExcluido) }})
-            ctx.status = 200
-            return ctx.message = "Livro Excluído"
+            return res.send("Livro Excluído").json()
         } catch(erro){
-            return ctx.body = erro.message
+            res.status(400)
+            return res.send(erro).json()
         }
     }
 

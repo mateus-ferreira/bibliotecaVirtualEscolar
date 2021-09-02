@@ -1,13 +1,12 @@
 const usuario = require('../controllers/UsuariosController')
-const passport = require('koa-passport')
+const router = require('express').Router()
 
-module.exports = (router, koaBody) => {
     router
         //login
-        .post('/usuario/login', koaBody, passport.authenticate('bearer', { session: false }), usuario.login)
+        .post('/usuario/login', usuario.login)
 
         //C
-        .post('/cadastroUsuario', koaBody, usuario.cadastrarUsuario)
+        .post('/cadastroUsuario', usuario.cadastrarUsuario)
 
         //R
         .get('/listarUsuarios', usuario.verTodosUsuarios)
@@ -17,12 +16,13 @@ module.exports = (router, koaBody) => {
         .get('/buscarUsuarioPorId/:id', usuario.buscarPorId)
 
         //U
-        .put('/editarPorEmail/:email', koaBody, usuario.editarUsuarioPorEmail)
+        .put('/editarPorEmail/:email', usuario.editarUsuarioPorEmail)
 
-        .put('/editarPorId/:id', koaBody, usuario.editarUsuarioPorId)
+        .put('/editarPorId/:id', usuario.editarUsuarioPorId)
 
         //D
-        .delete('/excluirPorEmail/:email', passport.authenticate('bearer', { session: false }), usuario.apagarUsuarioPorEmail)
+        .delete('/excluirPorEmail/:email', /*passport.authenticate('bearer', { session: false }),*/ usuario.apagarUsuarioPorEmail)
 
-        .delete('/excluirPorId/:id', passport.authenticate('bearer', { session: false }), usuario.apagarUsuarioPorId)
-}
+        .delete('/excluirPorId/:id', /*passport.authenticate('bearer', { session: false }),*/ usuario.apagarUsuarioPorId)
+
+module.exports = router

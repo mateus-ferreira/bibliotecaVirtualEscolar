@@ -1,13 +1,12 @@
 const livro = require('../controllers/LivrosController')
-const passport = require('passport')
+const router = require('express').Router()
 
-module.exports = (router, koaBody) => {
     router
-        .get('/', (ctx, next) => {
-            ctx.body = "Hello World"
+        .get('/', (req, res) => {
+            res.send("Hello World")
         })
         //C
-        .post('/cadastroLivro', koaBody, passport.authenticate('bearer', { session: false }), livro.cadastrarLivro)
+        .post('/cadastroLivro', /*passport.authenticate('bearer', { session: false }),*/ livro.cadastrarLivro)
 
         //R
         .get('/listaLivros', livro.listarTodosLivros)
@@ -19,8 +18,9 @@ module.exports = (router, koaBody) => {
         .get('/livroAutor/:autor', livro.listarLivroComAutor)
 
         //U
-        .put('/editarLivro/:codLivro', koaBody, livro.editarLivro)
+        .put('/editarLivro/:codLivro', livro.editarLivro)
 
         //D
-        .delete('/excluirLivro/:livroExcluido', passport.authenticate('bearer', { session: false }), livro.excluirLivro)
-}
+        .delete('/excluirLivro/:livroExcluido', /*passport.authenticate('bearer', { session: false }),*/ livro.excluirLivro)
+
+module.exports = router

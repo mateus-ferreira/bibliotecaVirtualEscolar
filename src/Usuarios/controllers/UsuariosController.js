@@ -3,20 +3,21 @@ const { InvalidArgumentError, InternalServerError } = require('../erros/erros')
 const cripto = require('../../seguranca/seguranca')
 const autenticacao = require('../../seguranca/autenticacao')
 const valida = require('../../seguranca/validacoes')
-const jwt = require('koa-jwt')
+const jwt = require('jsonwebtoken')
 
-function gerarToken(usuario){
+function gerarToken(){
     const payload = { sub: 10 }
     
 
     const token = jwt.sign(payload, process.env.SECRETPASS)
+    console.log("token usuario")
     return token
 }
 
 class UsuariosController {
     //C
-    static async cadastrarUsuario(ctx) {
-        const novoUsuario = ctx.request.body
+    static async cadastrarUsuario(req, res) {
+        const novoUsuario = req.body
 
         try{
 
@@ -29,185 +30,167 @@ class UsuariosController {
             const novaSenha = await cripto.gerarSenhaHash(novoUsuario.senha)
             novoUsuario.senha = novaSenha
 
-            ctx.body = await database.Usuarios.create(novoUsuario)
-            console.log(ctx.body)
-            
-            ctx.status = 201
-            return ctx.body
+            res.status(201)
+            return res.send(await database.Usuarios.create(novoUsuario)).json()
 
         } catch (erro) {
             if (erro instanceof InvalidArgumentError) {
-                ctx.status = 422
-                ctx.body =  erro.message
-                return erro
+
+                res.status(422)
+                return res.send(erro).json()
 
             } else if (erro instanceof InternalServerError) {
 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
 
             } else {
                 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
             }
         }   
     };
     //R
-    static async verTodosUsuarios(ctx){
+    static async verTodosUsuarios(req, res){
         try{
-            ctx.body = await database.Usuarios.findAll()
-            return ctx.body
+            return res.send(await database.Usuarios.findAll()).json
         }catch(erro){
-            ctx.body = erro.message
+            return res.send(erro).json()
         }
     };
 
-    static async buscarPorEmail(ctx){
-        const { email } = ctx.params
+    static async buscarPorEmail(req, res){
+        const { email } = req.params
 
         try{
-            ctx.body = await database.Usuarios.findOne({ where: { email: email }})
-            console.log(ctx.body)
-            ctx.status = 200
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Usuarios.findOne({ where: { email: email }})).json()
+            
         } catch(erro) {
-            ctx.body = erro.message
+            res.status(400)
+            return res.send(erro).json()
         }
     };
 
-    static async buscarPorId(ctx) {
-        const { id } = ctx.params
+    static async buscarPorId(req, res) {
+        const { id } = req.params
         try{
-            ctx.body = await database.Usuarios.findOne({ where: { id: Number(id) }})
-            console.log(ctx.body)
-            ctx.status = 200
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Usuarios.findOne({ where: { id: Number(id) }})).json()
+
         } catch(erro) {
-            ctx.body = erro.message
+            res.status(400)
+            return res.send(erro).json()
         }
     };
     //U
-    static async editarUsuarioPorId(ctx){
-        const { id } = ctx.params
-        const dados = ctx.request.body
+    static async editarUsuarioPorId(req, res){
+        const { id } = req.params
+        const dados = req.body
 
         try{
-            ctx.body = await database.Usuarios.update(dados, {where: { id: Number(id) }})
-            console.log(ctx.body)
-
-            ctx.status = 200
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Usuarios.update(dados, {where: { id: Number(id) }})).json()
+            
         }catch (erro) {
             if (erro instanceof InvalidArgumentError) {
-                ctx.status = 422
-                ctx.body =  erro.message
-                return erro
+
+                res.status(422)
+                return res.send(erro).json()
 
             } else if (erro instanceof InternalServerError) {
 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
 
             } else {
                 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
             }
         }  
     };
 
-    static async editarUsuarioPorEmail(ctx){
-        const { email } = ctx.params
-        const dados = ctx.request.body
+    static async editarUsuarioPorEmail(req, res){
+        const { email } = req.params
+        const dados = req.body
 
         try{
-            ctx.body = await database.Usuarios.update(dados, {where: { email: email }})
-            console.log(ctx.body)
-
-            ctx.status = 200
-            return ctx.body
+            res.status(200)
+            return res.send(await database.Usuarios.update(dados, {where: { email: email }})).json()
+            
         }catch (erro) {
             if (erro instanceof InvalidArgumentError) {
-                ctx.status = 422
-                ctx.body =  erro.message
-                return erro
+
+                res.status(422)
+                return res.send(erro).json()
 
             } else if (erro instanceof InternalServerError) {
 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
 
             } else {
                 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
             }
         }  
     };
     //D
-    static async apagarUsuarioPorEmail(ctx){
-        const { email } = ctx.params
+    static async apagarUsuarioPorEmail(req, res){
+        const { email } = req.params
 
         try{
-            ctx.body = await database.Usuarios.destroy({where: { email: Number(email) }})
-            console.log(ctx.body)
+            await database.Usuarios.destroy({where: { email: Number(email) }})
+            res.status(204)
 
-            ctx.status = 200
-            return ctx.body
+            return res.send('Usuario excluido').json()
+
         }catch (erro) {
             if (erro instanceof InvalidArgumentError) {
-                ctx.status = 422
-                ctx.body =  erro.message
-                return erro
+
+                res.status(422)
+                return res.send(erro).json()
 
             } else if (erro instanceof InternalServerError) {
 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
 
             } else {
                 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
             }
         }
     };
 
-    static async apagarUsuarioPorId(ctx){
-        const { id } = ctx.params
+    static async apagarUsuarioPorId(req, res){
+        const { id } = req.params
 
         try{
-            ctx.body = await database.Usuarios.destroy({where: { id: Number(id) }})
-            console.log(ctx.body)
+            await database.Usuarios.destroy({where: { id: Number(id) }})
+            res.status(204)
 
-            ctx.status = 200
-            return ctx.body
+            return res.send('usuario excluido').json()
+
         }catch (erro) {
             if (erro instanceof InvalidArgumentError) {
-                ctx.status = 422
-                ctx.body =  erro.message
-                return erro
+
+                res.status(422)
+                return res.send(erro).json()
 
             } else if (erro instanceof InternalServerError) {
 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
 
             } else {
                 
-                ctx.status = 500
-                ctx.body =  erro.message
-                return erro
+                res.status(500)
+                return res.send(erro).json()
             }
         }
     };
