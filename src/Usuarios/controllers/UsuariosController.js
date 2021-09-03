@@ -54,7 +54,7 @@ class UsuariosController {
     //R
     static async verTodosUsuarios(req, res){
         try{
-            return res.send(await database.Usuarios.findAll()).json
+            return res.send(await database.Usuarios.findAll()).json()
         }catch(erro){
             return res.send(erro).json()
         }
@@ -195,11 +195,11 @@ class UsuariosController {
         }
     };
 
-    static login(ctx) {
-        ctx.body = gerarToken()
-        console.log(ctx.body)
-        ctx.status = 204
-        return ctx.body
+    static login(req, res) {
+        const token = gerarToken()
+        console.log(token)
+        res.status(204)
+        return res.send(token)
     }
 }
 

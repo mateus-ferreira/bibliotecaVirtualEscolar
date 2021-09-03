@@ -1,26 +1,29 @@
 const livro = require('../controllers/LivrosController')
 const router = require('express').Router()
+const passport = require('passport')
 
     router
         .get('/', (req, res) => {
             res.send("Hello World")
         })
         //C
-        .post('/cadastroLivro', /*passport.authenticate('bearer', { session: false }),*/ livro.cadastrarLivro)
+        .post('/cadastroLivro', passport.authenticate('bearer', { session: false }), livro.cadastrarLivro)
 
         //R
-        .get('/listaLivros', livro.listarTodosLivros)
+        .get('/listaLivros', passport.authenticate('bearer', { session: false }), livro.listarTodosLivros)
 
-        .get('/livroCodigo/:codigo', livro.listarLivroComCodigo)
+        .get('/livroCodigo/:codigo', passport.authenticate('bearer', { session: false }), livro.listarLivroComCodigo)
 
-        .get('/livroTitulo/:titulo', livro.listarLivroComTitulo)
+        .get('/livroTitulo/:titulo', passport.authenticate('bearer', { session: false }), livro.listarLivroComTitulo)
 
-        .get('/livroAutor/:autor', livro.listarLivroComAutor)
+        .get('/livroAutor/:autor', passport.authenticate('bearer', { session: false }), livro.listarLivroComAutor)
 
         //U
-        .put('/editarLivro/:codLivro', livro.editarLivro)
+        .put('/editarLivro/:codLivro',passport.authenticate('bearer', { session: false }), livro.editarLivro)
+
+        .patch('/editarLivro/:codLivro',passport.authenticate('bearer', { session: false }), livro.editarLivro)
 
         //D
-        .delete('/excluirLivro/:livroExcluido', /*passport.authenticate('bearer', { session: false }),*/ livro.excluirLivro)
+        .delete('/excluirLivro/:livroExcluido', passport.authenticate('bearer', { session: false }), livro.excluirLivro)
 
 module.exports = router

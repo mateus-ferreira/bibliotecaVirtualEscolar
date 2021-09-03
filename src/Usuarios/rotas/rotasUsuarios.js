@@ -1,5 +1,6 @@
 const usuario = require('../controllers/UsuariosController')
 const router = require('express').Router()
+const passport = require('passport')
 
     router
         //login
@@ -16,13 +17,17 @@ const router = require('express').Router()
         .get('/buscarUsuarioPorId/:id', usuario.buscarPorId)
 
         //U
-        .put('/editarPorEmail/:email', usuario.editarUsuarioPorEmail)
+        .put('/editarPorEmail/:email', passport.authenticate('bearer', { session: false }), usuario.editarUsuarioPorEmail)
 
-        .put('/editarPorId/:id', usuario.editarUsuarioPorId)
+        .put('/editarPorId/:id', passport.authenticate('bearer', { session: false }), usuario.editarUsuarioPorId)
+
+        .patch('/editarPorEmail/:email', passport.authenticate('bearer', { session: false }), usuario.editarUsuarioPorEmail)
+
+        .patch('/editarPorId/:id', passport.authenticate('bearer', { session: false }), usuario.editarUsuarioPorId)
 
         //D
-        .delete('/excluirPorEmail/:email', /*passport.authenticate('bearer', { session: false }),*/ usuario.apagarUsuarioPorEmail)
+        .delete('/excluirPorEmail/:email', passport.authenticate('bearer', { session: false }), usuario.apagarUsuarioPorEmail)
 
-        .delete('/excluirPorId/:id', /*passport.authenticate('bearer', { session: false }),*/ usuario.apagarUsuarioPorId)
+        .delete('/excluirPorId/:id', passport.authenticate('bearer', { session: false }), usuario.apagarUsuarioPorId)
 
 module.exports = router

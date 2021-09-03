@@ -1,5 +1,5 @@
 require('dotenv').config();
-const passport = require('koa-passport')
+const passport = require('passport')
 const Local = require('passport-local').Strategy
 const BearerStrategy = require('passport-http-bearer').Strategy
 const User = require('../Usuarios/controllers/UsuariosController')
@@ -51,12 +51,9 @@ module.exports = (
     passport.use(
         new BearerStrategy(
             async (token, done) => {
-                console.log(token)
                 try{
-                    console.log("token auth")
                     const pl = jwt.verify(token, process.env.SECRETPASS)
-                    console.log("pl -",pl)
-                    const usuario = await database.Usuarios.findOne({ where: { id: Number(pl.id) }})
+                    const usuario = await database.Usuarios.findOne({ token: token})
                     done(null, usuario)
                 }catch(erro){
                     done(erro)
