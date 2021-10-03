@@ -10,7 +10,7 @@ const passport = require('passport')
         .post('/cadastroLivro', passport.authenticate('bearer', { session: false }), livro.cadastrarLivro)
 
         //R
-        .get('/listaLivros', passport.authenticate('bearer', { session: false }), livro.listarTodosLivros)
+        .get('/listaLivros', /*passport.authenticate('bearer', { session: false }),*/ livro.listarTodosLivros)
 
         .get('/livroCodigo/:codigo', passport.authenticate('bearer', { session: false }), livro.listarLivroComCodigo)
 
