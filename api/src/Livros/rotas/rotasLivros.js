@@ -7,7 +7,7 @@ const passport = require('passport')
             res.send("Hello World")
         })
         //C
-        .post('/cadastroLivro', passport.authenticate('bearer', { session: false }), livro.cadastrarLivro)
+        .post('/cadastroLivro', /*passport.authenticate('bearer', { session: false }),*/ livro.cadastrarLivro)
 
         //R
         .get('/listaLivros', /*passport.authenticate('bearer', { session: false }),*/ livro.listarTodosLivros)

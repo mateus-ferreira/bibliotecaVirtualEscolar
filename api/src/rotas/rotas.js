@@ -7,6 +7,7 @@ module.exports = (app) =>{
     app
         
         .use(bodyParser.json())
+        .use(bodyParser.urlencoded({extended: false}))
         .use(rotasLivros)
         .use(rotasUsuarios)
 
