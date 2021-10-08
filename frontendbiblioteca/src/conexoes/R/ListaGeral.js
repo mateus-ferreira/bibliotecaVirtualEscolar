@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableContainer, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
+import { Table, TableContainer, TableBody, TableCell, TableHead, TableRow, Container } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import iconeCadastro from '../../assets/images/cadastrar.svg'
+import iconeExcluir from '../../assets/images/excluir.svg'
+import iconeEditar from '../../assets/images/editar.svg'
+import iconePesquisar from '../../assets/images/pesquisar.svg'
 
 const urlbase = process.env.REACT_APP_BASE_URL
 
@@ -27,30 +32,41 @@ function ListaGeral(){
     }, [])
     
     return (
-        <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Código</TableCell>
-                        <TableCell>Titulo</TableCell>
-                        <TableCell>Autor</TableCell>
-                        <TableCell>Editora</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {livros.map((livro) => {
-                        return(
+        <div>
+            <Container maxWidth='lg'>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
                             <TableRow>
-                                <TableCell>{livro.codigo}</TableCell>
-                                <TableCell>{livro.titulo}</TableCell>
-                                <TableCell>{livro.autor}</TableCell>
-                                <TableCell>{livro.editora}</TableCell>
+                                <TableCell>
+                                    <Link to='/cadastro'><img src={iconeCadastro}></img></Link>
+                                </TableCell>
+                                <TableCell>Código</TableCell>
+                                <TableCell>Titulo</TableCell>
+                                <TableCell>Autor</TableCell>
+                                <TableCell>Editora</TableCell>
                             </TableRow>
-                        )
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {livros.map((livro) => {
+                                return(
+                                    <TableRow key={livro.codigo}>
+                                        <TableCell>
+                                            <Link><img src={iconeExcluir}></img></Link>
+                                            <Link to='/editar'><img src={iconeEditar}></img></Link>
+                                        </TableCell>
+                                        <TableCell>{livro.codigo}</TableCell>
+                                        <TableCell>{livro.titulo}</TableCell>
+                                        <TableCell>{livro.autor}</TableCell>
+                                        <TableCell>{livro.editora}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Container>
+        </div>
     )
 }
 

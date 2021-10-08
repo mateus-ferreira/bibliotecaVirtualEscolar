@@ -1,15 +1,10 @@
 import React from "react";
-import ListaGeral from './conexoes/R/ListaGeral'
-import CadastroLivro from "./conexoes/C/CadastroLivro";
+import Rotas from './rotas/rotas'
 
 function App() {
   
   return (
-    <div>
-      <div>
-        <CadastroLivro/>
-      </div>
-    </div>
+    <Rotas/>
   );
 }
 

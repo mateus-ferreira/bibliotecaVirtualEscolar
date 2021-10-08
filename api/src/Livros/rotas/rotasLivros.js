@@ -19,7 +19,7 @@ const passport = require('passport')
         .get('/livroAutor/:autor', passport.authenticate('bearer', { session: false }), livro.listarLivroComAutor)
 
         //U
-        .put('/editarLivro/:codLivro',passport.authenticate('bearer', { session: false }), livro.editarLivro)
+        .put('/editarLivro/:codLivro'/*,passport.authenticate('bearer', { session: false })*/, livro.editarLivro)
 
         .patch('/editarLivro/:codLivro',passport.authenticate('bearer', { session: false }), livro.editarLivro)
 
