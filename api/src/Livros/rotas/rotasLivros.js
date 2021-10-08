@@ -24,6 +24,6 @@ const passport = require('passport')
         .patch('/editarLivro/:codLivro',passport.authenticate('bearer', { session: false }), livro.editarLivro)
 
         //D
-        .delete('/excluirLivro/:livroExcluido', passport.authenticate('bearer', { session: false }), livro.excluirLivro)
+        .delete('/excluirLivro/:livroExcluido', /*passport.authenticate('bearer', { session: false }),*/ livro.excluirLivro)
 
 module.exports = router

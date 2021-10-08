@@ -1,10 +1,14 @@
 import React, {useState} from "react";
 import { TextField, Button, Container } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const urlbase = process.env.REACT_APP_BASE_URL
 
 function EdicaoLivro (){
+
+    const { codigo } = useParams()
+    console.log(codigo)
+
     const [livros, setLivros] = useState({
         codigo: '',
         titulo: '',
@@ -12,15 +16,35 @@ function EdicaoLivro (){
         editora: ''
     })
 
+    async function fetchLivros(dados={}){
+        try{
+            const resposta = await fetch(urlbase+`/editarLivro/${codigo}`, {
+                method: 'PUT',
+                headers: {
+                    Accept:'*/*',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(dados)
+            })
+            const dado = await resposta.json()
+            return console.log(dado)
+            
+        }catch(erro){
+            return console.log(erro.message)
+        }
+    }
+    function handleSubmit(){
+        fetchLivros(livros)
+    }
+
     return(
         <Container maxWidth='sm'>
             <form onSubmit={(event)=>{
                 event.preventDefault()
-                //handleSubmit()
+                handleSubmit()
             }}>
                 <TextField
                     value={livros.codigo}
-                    defaultValue={livros.codigo}
                     onChange={(event)=>{
                         setLivros({...livros, codigo: event.target.value})
                     }}

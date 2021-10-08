@@ -23,7 +23,7 @@ function CadastroLivro(){
                 body: JSON.stringify(dados)
             })
             const dado = await resposta.json()
-            return dado
+            return console.log(dado)
             
         }catch(erro){
             return console.log(erro.message)

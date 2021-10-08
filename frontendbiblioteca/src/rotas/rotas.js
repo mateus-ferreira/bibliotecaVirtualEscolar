@@ -11,7 +11,7 @@ function Rotas(){
         <Switch>
             <Route exact path='/'><ListaGeral/></Route>
             <Route exact path='/cadastro'><CadastroLivro/></Route>
-            <Route exact path='/editar'><EdicaoLivro/></Route>
+            <Route exact path='/editar/:codigo'><EdicaoLivro/></Route>
         </Switch>
     </Router>
         /*
