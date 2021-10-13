@@ -1,0 +1,13 @@
+.navPrincipal {
+    background-color: red;
+    display: grid;
+}
+
+.linkHome{
+    text-decoration: none;
+}
+
+.login {
+    text-decoration: none;
+    text-align: right;
+}

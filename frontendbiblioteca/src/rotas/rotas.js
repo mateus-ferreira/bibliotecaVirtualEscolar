@@ -1,17 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import ListaGeral from '../conexoes/R/ListaGeral'
-import CadastroLivro from "../conexoes/C/CadastroLivro";
-import EdicaoLivro from "../conexoes/U/EdicaoLivro";
+import CadastroLivro from "../conexoes/Livros/C/CadastroLivro";
+import ListaGeral from '../conexoes/Livros/R/ListaGeral'
+import EdicaoLivro from "../conexoes/Livros/U/EdicaoLivro";
+
+import CadastroUsuario from "../conexoes/Usuarios/C/CadastroUsuario";
+
+import Cabecalho from "../components/Cabecalho";
+
 
 
 function Rotas(){
     return(
     <Router>
+        <Cabecalho/>
         <Switch>
             <Route exact path='/'><ListaGeral/></Route>
-            <Route exact path='/cadastro'><CadastroLivro/></Route>
+            <Route exact path='/cadastroLivro'><CadastroLivro/></Route>
             <Route exact path='/editar/:codigo'><EdicaoLivro/></Route>
+
+            <Route exact path='/cadastroUsuario'><CadastroUsuario/></Route>
         </Switch>
     </Router>
         /*
