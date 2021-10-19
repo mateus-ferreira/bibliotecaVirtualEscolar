@@ -5,6 +5,7 @@ import ListaGeral from '../conexoes/Livros/R/ListaGeral'
 import EdicaoLivro from "../conexoes/Livros/U/EdicaoLivro";
 
 import CadastroUsuario from "../conexoes/Usuarios/C/CadastroUsuario";
+import Login from "../conexoes/Usuarios/C/Login";
 
 import Cabecalho from "../components/Cabecalho";
 
@@ -20,6 +21,7 @@ function Rotas(){
             <Route exact path='/editar/:codigo'><EdicaoLivro/></Route>
 
             <Route exact path='/cadastroUsuario'><CadastroUsuario/></Route>
+            <Route exact path='/login'><Login/></Route>
         </Switch>
     </Router>
         /*

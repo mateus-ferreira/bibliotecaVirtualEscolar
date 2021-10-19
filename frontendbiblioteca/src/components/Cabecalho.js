@@ -9,7 +9,8 @@ const Cabecalho = () => {
                 <Link className='linkHome' to='/'><h1>Biblioteca Virtual</h1></Link>
             
             
-                <Link className='login' to='/cadastroUsuario'>Entrar</Link>
+                <Link className='login' to='/login'>Entrar</Link>
+                <Link className='login' to='/cadastroUsuario'>Cadastrar</Link>
             </nav>
         </header>
     )
