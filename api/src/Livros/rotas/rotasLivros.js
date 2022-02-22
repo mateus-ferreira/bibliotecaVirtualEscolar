@@ -1,10 +1,14 @@
 const livro = require('../controllers/LivrosController')
 const router = require('express').Router()
 const passport = require('passport')
+require('dotenv').config();
+
 
     router
         .get('/', (req, res) => {
             res.send("Hello World")
+            //res.send("Hello")
+            //res.send("World")
         })
         //C
         .post('/cadastroLivro', /*passport.authenticate('bearer', { session: false }),*/ livro.cadastrarLivro)
