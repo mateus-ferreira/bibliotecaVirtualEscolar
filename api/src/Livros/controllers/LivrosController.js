@@ -81,12 +81,12 @@ class LivrosController {
                 dados.titulo,
                 dados.autor,
                 dados.editora)*/
-            res.status(200)
-            return res.send(await database.Livros.update(dados, {where: { codigo: Number(codigo) }})).json()  
+            //res.status(200)
+            return res.send(await database.Livros.update(dados, {where: { codigo: Number(codigo) }})).json().status(200)  
         }catch (erro) {
             if(erro instanceof CampoInvalido){
-                res.status(400)
-                return res.send(erro).json()
+                //res.status(400)
+                return res.send(erro).json().status(400)
                 
             }
             return res.send(erro).json()
@@ -95,14 +95,12 @@ class LivrosController {
 
     //D
     static async excluirLivro(req, res) {
-        const { livroExcluido } = req.params
+        //const { livroExcluido } = req.params.codLivro
         try {
-            res.status(204)
-            await database.Livros.destroy({where: { codigo: Number(livroExcluido) }})
-            return res.send("Livro Excluído").json()
+            await database.Livros.destroy({where: { codigo: Number(req.params.codLivro) }})
+            return res.send("Livro Excluído").json().status(204)
         } catch(erro){
-            res.status(400)
-            return res.send(erro).json()
+            return res.send(erro).json().status(400)
         }
     }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { /*Router,*/ Route, BrowserRouter, Routes } from 'react-router-dom'
 import CadastroLivro from "../conexoes/Livros/C/CadastroLivro";
 import ListaGeral from '../conexoes/Livros/R/ListaGeral'
 import EdicaoLivro from "../conexoes/Livros/U/EdicaoLivro";
@@ -13,17 +13,19 @@ import Cabecalho from "../components/Cabecalho";
 
 function Rotas(){
     return(
-    <Router>
-        <Cabecalho/>
-        <Switch>
-            <Route exact path='/'><ListaGeral/></Route>
-            <Route exact path='/cadastroLivro'><CadastroLivro/></Route>
-            <Route exact path='/editar/:codigo'><EdicaoLivro/></Route>
+        <div>
+            <Cabecalho />
+            <BrowserRouter>
+                <Routes>
+                    <Route exact path='/' element={<ListaGeral />}></Route>
+                    <Route exact path='/cadastroLivro' element={<CadastroLivro />}></Route>
+                    <Route exact path='/editar/:codigo' element={<EdicaoLivro />}></Route>
 
-            <Route exact path='/cadastroUsuario'><CadastroUsuario/></Route>
-            <Route exact path='/login'><Login/></Route>
-        </Switch>
-    </Router>
+                    <Route exact path='/cadastroUsuario' element={<CadastroUsuario />}></Route>
+                    <Route exact path='/login' element={<Login />}></Route>
+                </Routes>
+            </BrowserRouter>
+        </div>
         /*
     <div>
         <ListaGeral/>

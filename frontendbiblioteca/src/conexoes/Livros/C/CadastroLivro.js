@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button, Container } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import '../../../assets/css/cssFormularios.css'
 
 const urlbase = process.env.REACT_APP_BASE_URL
@@ -38,7 +38,7 @@ function CadastroLivro(){
         <Container maxWidth='sm'>
             <h1 className='titulo'>Cadastrar Livro</h1>
             <form onSubmit={(event) => {
-                event.preventDefault()
+                
                 handleSubmit()
             }}>
                 <TextField
@@ -86,7 +86,7 @@ function CadastroLivro(){
                     fullWidth
                 ></TextField>
                 <Button type="submit" variant="outlined" color="primary">Cadastrar</Button>
-                <Link to='/'><Button variant="outlined" color="secondary">Cancelar</Button></Link>
+                <a href='/'><Button variant="outlined" color="secondary">Cancelar</Button></a>
             </form>
         </Container>
     )

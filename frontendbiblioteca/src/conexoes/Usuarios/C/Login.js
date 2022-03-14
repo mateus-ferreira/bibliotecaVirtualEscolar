@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { TextField, Button, Container } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 
 const urlbase = process.env.REACT_APP_BASE_URL
 
@@ -64,7 +64,7 @@ function Login(){
                     fullWidth
                 ></TextField>
                 <Button type="submit" variant="outlined" color="primary">Cadastrar</Button>
-                <Link to='/'><Button variant="outlined" color="secondary">Cancelar</Button></Link>
+                <a href='/'><Button variant="outlined" color="secondary">Cancelar</Button></a>
             </form>
         </Container>
     )

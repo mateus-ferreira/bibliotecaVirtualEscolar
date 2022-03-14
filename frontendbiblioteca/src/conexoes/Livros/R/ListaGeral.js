@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableContainer, TableBody, TableCell, TableHead, TableRow, Container } from '@material-ui/core'
-import { Link } from 'react-router-dom'
-import ExcluirLivro  from '../D/ExcluirLivro'
+//import { Link } from 'react-router-dom'
+//import ExcluirLivro  from '../D/ExcluirLivro'
 import iconeCadastro from '../../../assets/images/cadastrar.svg'
 import iconeExcluir from '../../../assets/images/excluir.svg'
 import iconeEditar from '../../../assets/images/editar.svg'
-import iconePesquisar from '../../../assets/images/pesquisar.svg'
+//import iconePesquisar from '../../../assets/images/pesquisar.svg'
 
 const urlbase = process.env.REACT_APP_BASE_URL
 
@@ -49,7 +49,7 @@ function ListaGeral(){
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    <Link to='/cadastroLivro'><img src={iconeCadastro} alt='iconAdicionar'></img></Link>
+                                    <a href='/cadastroLivro'><img src={iconeCadastro} alt='iconAdicionar'></img></a>
                                 </TableCell>
                                 <TableCell>Código</TableCell>
                                 <TableCell>Titulo</TableCell>
@@ -62,12 +62,12 @@ function ListaGeral(){
                                 return(
                                     <TableRow key={livro.codigo}>
                                         <TableCell>
-                                            <Link to='/' onClick={(event)=>{
+                                            <a href='/' onClick={(event)=>{
                                                 event.preventDefault()
                                                 apagar(livro.codigo)
 
-                                            }}><img src={iconeExcluir} alt='iconExcluir'></img></Link>
-                                            <Link to={`/editar/${livro.codigo}`}><img src={iconeEditar} alt='iconEditar'></img></Link>
+                                            }}><img src={iconeExcluir} alt='iconExcluir'></img></a>
+                                            <a href={`/editar/${livro.codigo}`}><img src={iconeEditar} alt='iconEditar'></img></a>
                                         </TableCell>
                                         <TableCell>{livro.codigo}</TableCell>
                                         <TableCell>{livro.titulo}</TableCell>

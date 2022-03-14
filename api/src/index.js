@@ -7,3 +7,4 @@ app.use(cors())
 
 rotas(app)
 app.listen(process.env.PORT);
+//console.log(process.env)

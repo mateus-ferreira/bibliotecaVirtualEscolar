@@ -1,16 +1,16 @@
 import React from "react";
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import '../assets/css/cssCabecalho.css'
 
 const Cabecalho = () => {
     return(
         <header>
             <nav className='navPrincipal'>
-                <Link className='linkHome' to='/'><h1>Biblioteca Virtual</h1></Link>
+                <a className='linkHome' href='/'><h1>Biblioteca Virtual</h1></a>
             
             
-                <Link className='login' to='/login'>Entrar</Link>
-                <Link className='login' to='/cadastroUsuario'>Cadastrar</Link>
+                <a className='login' href='/login'>Entrar</a>
+                <a className='login' href='/cadastroUsuario'>Cadastrar</a>
             </nav>
         </header>
     )
