@@ -16,13 +16,10 @@ class LivrosController {
             const livro = await database.Livros.create(novoLivro)
             console.log(livro)
             
-            res.status(201)
-            return res.send(livro).json()
+            return res.status(201).json(livro)
         }catch(erro){
             if(erro instanceof CampoInvalido){
-                res.status(400)
-                return res.send(erro)
-                
+                return res.status(400).json(erro)
             }
             return res.send(erro)
         }
@@ -31,44 +28,36 @@ class LivrosController {
     //R
     static async listarTodosLivros(req, res) {
         try {
-            res.status(200)
-            return res.send(await database.Livros.findAll()).json()
+            return res.status(200).json(await database.Livros.findAll())
         } catch (erro) {
-            res.status(404)
-            return res.send(erro).json()
+            return res.status(404).json(erro)
         }
     }
 
     static async listarLivroComCodigo(req, res) {
         const { codigo } = req.params
         try {
-            res.status(200)
-            return res.send(await database.Livros.findOne({ where: { codigo: Number(codigo) } })).json()
+            return res.status(200).json(await database.Livros.findOne({ where: { codigo: Number(codigo) } }))
         } catch (erro) {
-            res.status(404)
-            return res.send(erro).json()
+            return res.status(404).json(erro)
         }
     }
 
     static async listarLivroComTitulo(req, res) {
         const { titulo } = req.params
         try {
-            res.status(200)
-            return res.send(await database.Livros.findAll({ where: { titulo: {[Op.substring]: titulo }}})).json()
+            return res.status(200).json(await database.Livros.findAll({ where: { titulo: {[Op.substring]: titulo }}}))
         } catch (erro) {
-            res.status(404)
-            return res.send(erro).json()
+            return res.status(404).json(erro)
         }
     }
 
     static async listarLivroComAutor(req, res) {
         const { autor } = req.params
         try {
-            res.status(200)
-            return res.send(await database.Livros.findAll({ where: { autor: {[Op.substring]: autor }}})).json()
+            return res.status(200).json(await database.Livros.findAll({ where: { autor: {[Op.substring]: autor }}}))
         } catch (erro) {
-            res.status(404)
-            return res.send(erro).json()
+            return res.status(404).json(erro)
         }
     }
 
@@ -81,15 +70,12 @@ class LivrosController {
                 dados.titulo,
                 dados.autor,
                 dados.editora)*/
-            //res.status(200)
-            return res.send(await database.Livros.update(dados, {where: { codigo: Number(codigo) }})).json().status(200)  
-        }catch (erro) {
+            return res.status(200).json(await database.Livros.update(dados, {where: { codigo: Number(codigo) }}))
+                }catch (erro) {
             if(erro instanceof CampoInvalido){
-                //res.status(400)
-                return res.send(erro).json().status(400)
-                
+                return res.status(400).json(erro)
             }
-            return res.send(erro).json()
+            return res.status(400).json(erro)
         }
     }
 
@@ -98,9 +84,9 @@ class LivrosController {
         //const { livroExcluido } = req.params.codLivro
         try {
             await database.Livros.destroy({where: { codigo: Number(req.params.codLivro) }})
-            return res.send("Livro Excluído").json().status(204)
+            return res.status(204).send("Livro Excluído")
         } catch(erro){
-            return res.send(erro).json().status(400)
+            return res.status(400).json(erro)
         }
     }
 
