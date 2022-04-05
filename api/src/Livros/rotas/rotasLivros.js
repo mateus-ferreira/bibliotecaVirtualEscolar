@@ -1,6 +1,5 @@
 const livro = require('../controllers/LivrosController')
 const router = require('express').Router()
-const passport = require('passport')
 require('dotenv').config();
 
 
@@ -11,23 +10,23 @@ require('dotenv').config();
             //res.send("World")
         })
         //C
-        .post('/cadastroLivro', /*passport.authenticate('bearer', { session: false }),*/ livro.cadastrarLivro)
+        .post('/cadastroLivro', livro.cadastrarLivro)
 
         //R
-        .get('/listaLivros', /*passport.authenticate('bearer', { session: false }),*/ livro.listarTodosLivros)
+        .get('/listaLivros', livro.listarTodosLivros)
 
-        .get('/livroCodigo/:codigo', passport.authenticate('bearer', { session: false }), livro.listarLivroComCodigo)
+        .get('/livroCodigo/:codigo', livro.listarLivroComCodigo)
 
-        .get('/livroTitulo/:titulo', passport.authenticate('bearer', { session: false }), livro.listarLivroComTitulo)
+        .get('/livroTitulo/:titulo', livro.listarLivroComTitulo)
 
-        .get('/livroAutor/:autor', passport.authenticate('bearer', { session: false }), livro.listarLivroComAutor)
+        .get('/livroAutor/:autor', livro.listarLivroComAutor)
 
         //U
-        .put('/editarLivro/:codLivro'/*,passport.authenticate('bearer', { session: false })*/, livro.editarLivro)
+        .put('/editarLivro/:codLivro',livro.editarLivro)
 
-        .patch('/editarLivro/:codLivro',passport.authenticate('bearer', { session: false }), livro.editarLivro)
+        .patch('/editarLivro/:codLivro',livro.editarLivro)
 
         //D
-        .delete('/excluirLivro/:codLivro', /*passport.authenticate('bearer', { session: false }),*/ livro.excluirLivro)
+        .delete('/excluirLivro/:codLivro', livro.excluirLivro)
 
 module.exports = router
